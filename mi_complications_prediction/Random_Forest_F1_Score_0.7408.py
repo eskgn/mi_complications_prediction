@@ -43,14 +43,26 @@ disp.plot(cmap='Blues')  # tu peux changer la couleur
 plt.title("Matrice de confusion")
 plt.show() 
 
+from sklearn.metrics import classification_report
 
-# # Ajouter les prédictions dans X_new
-# X_new["Prediction"] = preds_new
+print("\nRapport de classification :")
+print(classification_report(y_test, rf_preds, zero_division=0))
 
-# # Exporter dans un fichier Excel
-# X_new.to_excel("predictions.xlsx", index=False)
 
-# print("Les prédictions ont été sauvegardées dans 'predictions.xlsx'")
+# Générer les prédictions sur X_new
+preds_new = rf_model.predict(X_new)
+
+
+df_export = pd.DataFrame({
+    "ID": ID_new,   # garde seulement l'identifiant
+    "pred": preds_new    # ajoute les prédictions
+})
+
+# Export en csv
+df_export.to_csv("predictions.csv", index=False)
+
+print("Les prédictions ont été sauvegardées dans 'predictions.csv'")
+
 
 # Afficher l'importance des caractéristiques
 # importances = rf_model.feature_importances_
